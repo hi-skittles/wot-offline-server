@@ -28,7 +28,7 @@ def call(*args):
 def getVersion(meta):
 	if 'version' in meta:
 		return meta['version']
-	
+
 	if 'not a git repository' not in call('git', 'log'):
 		tree = call('git', 'rev-parse', '--abbrev-ref', 'HEAD')
 		commit = int(call('git', 'rev-list', 'HEAD', '--count'))
@@ -164,8 +164,8 @@ def buildGO(path):
 		filename = f.name
 
 	try:
-		subprocess.check_output(['go', 'build', '-o', filename], 
-								cwd=path, env=env, shell=True, 
+		subprocess.check_output(['go', 'build', '-o', filename],
+								cwd=path, env=env, shell=True,
 								stderr=subprocess.STDOUT, universal_newlines=True)
 		with open(filename, 'rb') as f:
 			return f.read()
@@ -192,7 +192,7 @@ def write(excludes, package, path, data):
 		data = ''
 
 	print 'Write', path, len(data)
-	
+
 	now = tuple(datetime.now().timetuple())[:6]
 	path = path.replace('\\', '/')
 
@@ -217,7 +217,7 @@ def deploy(pathLine, gamePath):
 				path = os.path.join(dirName, filename)
 				with open(path, 'r') as p:
 					paths = p.read().split('\n')
-						
+
 				for idx, line in enumerate(paths):
 					if line == pathLine:
 						break
@@ -256,7 +256,7 @@ def build(packageFile, config):
 				path = os.path.join(dirName, filename)
 				name = path.replace(sources, '').replace('\\', '/')
 				dst = 'res' + name
-				
+
 				fname, fext = os.path.splitext(dst)
 				if fext == '.py':
 					write(excludes, package, fname + '.pyc', buildPython(path, name))
@@ -268,7 +268,7 @@ def build(packageFile, config):
 						write(excludes, package, dst, f.read())
 
 		for source, dst in CONFIG.get('flash_fdbs', {}).items():
-			write(excludes, excludes, package, dst, buildFlashFD(source))
+			write(excludes, package, dst, buildFlashFD(source))
 
 		for dst, data in buildFLA(CONFIG.get('flash_fla', {})).items():
 			write(excludes, package, dst, data)
@@ -308,4 +308,3 @@ if __name__ == '__main__':
 		build(os.path.abspath(os.path.join('bin', packageName)), CONFIG)
 		if 'deploy' in sys.argv:
 			deploy(pathLine, sys.argv[sys.argv.index('deploy') + 1])
-
