@@ -11,8 +11,8 @@ from gui.mods.offhangar.utils import jsonParse
 # Dumps any request from client and any result from server
 IS_REQUEST_CATCHING = False
 
-OFFLINE_SERVER_ADDRES = 'offline.loc'
-OFFLINE_NICKNAME = 'wotclue'
+OFFLINE_SERVER_ADDRES = 'ensure.wargaming.local'
+OFFLINE_NICKNAME = 'ensure'
 OFFLINE_LOGIN = OFFLINE_NICKNAME + '@' + OFFLINE_SERVER_ADDRES
 OFFLINE_PWD = ''
 OFFLINE_DBID = 1
