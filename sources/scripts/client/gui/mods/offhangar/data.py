@@ -8,7 +8,7 @@ from items import utils, vehicles, tankmen, getTypeOfCompactDescr, makeIntCompac
 from items.vehicles import isItemWithCompactDescrExist
 
 from gui.shared.gui_items import GUI_ITEM_TYPE
-from gui.shared.gui_items.Vehicle import Vehicle
+from gui.shared.gui_items.Vehicle import Vehicle, VehicleDescr, makeIntCompactDescrByID
 from gui.shared.utils.requesters.vehicle_items_getter import _MODULES_GETTERS
 
 from skeletons.gui.shared.gui_items import IGuiItemsFactory
@@ -54,15 +54,31 @@ def getOfflineInventory(itemsFactory=None):
 			item = itemsFactory.createGuiItem(itemType, typeCompDescr=typeCompDescr)
 			nationID, vehicleTypeID = item.descriptor.type.id
 
-			data[GUI_ITEM_TYPE.VEHICLE]['compDescr'][typeCompDescr] = item.descriptor.makeCompactDescr()
+			vDesc = VehicleDescr(item.descriptor.makeCompactDescr())
+			vType = vDesc.type
+			turretv = vType.turrets[-1][-1]
+			gunv = turretv['guns'][-1]
+
+			gunIDv = makeIntCompactDescrByID('vehicleGun',gun.id[0],gun.id[1])
+			turretIDv = makeIntCompactDescrByID('vehicleTurret',turrent.id[0],turrent.id[1])
+			engineIDv = makeIntCompactDescrByID('vehicleEngine',vType.engines[-1].id[0],vType.engines[-1].id[1])
+			radioIDv = makeIntCompactDescrByID('vehicleRadio',vType.radios[-1].id[0],vType.radios[-1].id[1])
+			chassisIDv = makeIntCompactDescrByID('vehicleChassis',vType.chassis[-1].id[0],vType.chassis[-1].id[1])
+
+			vDesc.installComponent(chassisIDv)
+			vDesc.installComponent(engineIDv)
+			vDesc.installTurret(turretIDv,gunIDv)
+			vDesc.installComponent(radioIDv)
+
+			data[GUI_ITEM_TYPE.VEHICLE]['compDescr'][typeCompDescr] = vDesc.makeCompactDescr()
 			data[GUI_ITEM_TYPE.VEHICLE]['crew'][typeCompDescr] = []
 
 			for idx, roles in enumerate(item.descriptor.type.crewRoles):
 				tmanID = typeCompDescr << 4 + idx
 				data[GUI_ITEM_TYPE.TANKMAN]['compDescr'][tmanID] = tankmen.generateCompactDescr(
-					tankmen.generatePassport(nationID, True), 
-					vehicleTypeID, 
-					roles[0], 
+					tankmen.generatePassport(nationID, True),
+					vehicleTypeID,
+					roles[0],
 					100
 				)
 				data[GUI_ITEM_TYPE.TANKMAN]['vehicle'][tmanID] = typeCompDescr
@@ -95,7 +111,7 @@ def getOfflineStats():
 		if isinstance(value, (int, long)) and value != ACCOUNT_ATTR.SUSPENDED:
 			attrs |= value
 
-	return { 
+	return {
 		'stats': {
 			'crystalExchangeRate': 200,
 			'berths': 40,
@@ -113,7 +129,7 @@ def getOfflineStats():
 			'hasFinPassword': True,
 			'clanInfo': (None, None, 0, 0, 0),
 			'unlocks': unlocksSet,
-			'mayConsumeWalletResources': True, 	
+			'mayConsumeWalletResources': True,
 			'freeTMenLeft': 0,
 			'vehicleSellsLeft': 0,
         	'SPA': {'/common/goldfish_bonus_applied/': u'1'},
