@@ -1,7 +1,7 @@
 {
 	"meta": {
 		"id": "coke.offserver",
-		"version": "0.1"
+		"version": "1.0"
 	},
 	"flash_fdbs": {
 		"ObserverWindow/ObserverWindow.as3proj": "res/gui/flash/ObserverWindow.swf"
