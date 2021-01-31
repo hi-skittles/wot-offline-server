@@ -586,7 +586,7 @@
     "isCrewBooksPurchaseEnabled": false,
     "isCrewBooksSaleEnabled": false,
     "isCrewSkinsEnabled": false,
-    "isCustomizationEnabled": true,
+    "isCustomizationEnabled": false,
     "isDeluxeDevicesEnabled": false,
     "isEpicRandomAchievementsEnabled": false,
     "isEpicRandomEnabled": false,
@@ -614,7 +614,7 @@
     "isTrophyDevicesEnabled": false,
     "isTutorialEnabled": false,
     "isVehicleRestoreEnabled": false,
-    "isVehiclesCompareEnabled": 1,
+    "isVehiclesCompareEnabled": 2,
     "lootBoxes_config": {},
     "magnetic_auto_aim_config": {
         "enableForTags": [
@@ -949,7 +949,7 @@
         "loginOnStart": true
     },
     "wgm_offline_emergency_config": {
-        "enabled": true
+        "enabled": false
     },
     "xmpp_alt_connections": [
         [

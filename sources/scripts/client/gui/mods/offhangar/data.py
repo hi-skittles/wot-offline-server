@@ -112,8 +112,8 @@ def getOfflineStats():
 			'clanInfo': (None, None, 0, 0, 0),
 			'unlocks': unlocksSet,
 			'mayConsumeWalletResources': True,
-			'freeTMenLeft': 10,
-			'vehicleSellsLeft': 10,
+			'freeTMenLeft': 0,
+			'vehicleSellsLeft': 0,
 			'SPA': {'/common/goldfish_bonus_applied/': u'1'},
 			'vehTypeXP': vehTypeXP,
 			'unitAcceptDeadline': 0,
@@ -129,7 +129,7 @@ def getOfflineStats():
 			'globalRating': 0,
 			'restrictions': {},
 			'oldVehInvID': 0,
-			'accOffline': 1,
+			'accOffline': 0,
 			'dossier': '',
 			'multipliedXPVehs': {},
 			'tutorialsCompleted': 33553532,
@@ -216,7 +216,7 @@ def getOfflineShop():
 		'changeRoleCost': 500,
 		'isEnabledBuyingGoldShellsForCredits': False,
 		'items': shopItems,
-		'slotsPrices': (9, [300]),
+		'slotsPrices': (9, [1]),
 		'freeXPToTManXPRate': 10,
 		'defaults': {
 			'items': {},
@@ -224,7 +224,7 @@ def getOfflineShop():
 			'goodies': { 'prices': { } }
 		},
 		'sellPriceFactor': 0.5,
-		'isEnabledBuyingGoldEqsForCredits': True,
+		'isEnabledBuyingGoldEqsForCredits': False,
 		'playerInscriptionCost': {
 			0: (15, True),
 			7: (1500, False),
