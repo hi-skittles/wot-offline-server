@@ -1,15 +1,20 @@
 import cPickle
-from chat_shared import CHAT_RESPONSES, CHAT_ACTIONS, CHAT_COMMANDS
+import ResMgr
 
-OFFLINE_SERVER_ADDRES = 'offline.loc'
-OFFLINE_NICKNAME = '/offline/'
+from chat_shared import CHAT_RESPONSES, CHAT_ACTIONS, CHAT_COMMANDS
+from gui.mods.offhangar.utils import jsonParse
+
+IS_REQUEST_CATCHING = False
+
+OFFLINE_SERVER_ADDRES = 'wargaming.local'
+OFFLINE_NICKNAME = 'Ensure'
 OFFLINE_LOGIN = OFFLINE_NICKNAME + '@' + OFFLINE_SERVER_ADDRES
-OFFLINE_PWD = ''
-OFFLINE_DBID = 1
+OFFLINE_PWD = '1234'
+OFFLINE_DBID = 3
 
 OFFLINE_GUI_CTX = cPickle.dumps({
     'databaseID': OFFLINE_DBID, 
-    'logUXEvents': False, 
+    'logUXEvents': True, 
     'aogasStartedAt': 0, 
     'sessionStartedAt': 0, 
     'isAogasEnabled': False, 
@@ -17,18 +22,19 @@ OFFLINE_GUI_CTX = cPickle.dumps({
 	'isLongDisconnectedFromCenter': False,
 })
 
+'''
 OFFLINE_SERVER_SETTINGS = {
     'isGoldFishEnabled': False,
     'isVehicleRestoreEnabled': False,
-    'isFalloutQuestEnabled': True,
-    'isClubsEnabled': True,
+    'isFalloutQuestEnabled': False,
+    'isClubsEnabled': False,
     'isSandboxEnabled': True,
-    'isFortBattleDivisionsEnabled': True,
-    'isFortsEnabled': True,
+    'isFortBattleDivisionsEnabled': False,
+    'isFortsEnabled': False,
     'isEncyclopediaEnabled': 'token',
     'isStrongholdsEnabled': False,
-    'isRegularQuestEnabled': True,
-    'isSpecBattleMgrEnabled': False,
+    'isRegularQuestEnabled': False,
+    'isSpecBattleMgrEnabled': True,
     'isTankmanRestoreEnabled': False,
 
     'wallet': (False, False),
@@ -37,7 +43,7 @@ OFFLINE_SERVER_SETTINGS = {
     'newbieBattlesCount': 100,
     'roaming': (1, 1, [(1, 1, 2499999999L, 'OFFLINE')], ()),
     'randomMapsForDemonstrator': {},
-    'spgRedesignFeatures': {'stunEnabled': True, 'markTargetAreaEnabled': True},
+    'spgRedesignFeatures': {'stunEnabled': False, 'markTargetAreaEnabled': False},
     'regional_settings': {'starting_day_of_a_new_week': 0, 'starting_time_of_a_new_game_day': 0, 'starting_time_of_a_new_day': 0},
 
     'forbidSPGinSquads': False,
@@ -60,6 +66,9 @@ OFFLINE_SERVER_SETTINGS = {
     'xmpp_connections': [],
     'xmpp_alt_connections': [],
 }
+'''
+
+OFFLINE_SERVER_SETTINGS = jsonParse(ResMgr.openSection('helpers/offhangar/initialServerSettings.json').asBinary)
 
 CHAT_ACTION_DATA = {
 	'requestID': None,

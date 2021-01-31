@@ -164,7 +164,7 @@
         "premium_plus": 3
     },
     "clanProfile": {
-        "isEnabled": true
+        "isEnabled": false
     },
     "clans_config": {
         "clanQuestUrl": "",
@@ -172,7 +172,7 @@
         "isClanNotificationEnabled": true
     },
     "collector_vehicle_config": {
-        "enabled": true
+        "enabled": false
     },
     "crystal_rewards_config": {
         "limits": {
@@ -598,7 +598,7 @@
     "isLinkedSetEnabled": true,
     "isLootBoxesEnabled": false,
     "isManualEnabled": false,
-    "isMultinationalVehiclesEnabled": true,
+    "isMultinationalVehiclesEnabled": false,
     "isNationChangeEnabled": false,
     "isOffersEnabled": false,
     "isPM2QuestEnabled": false,
@@ -627,7 +627,7 @@
         "marathonUrl": "https://marathon.worldoftanks.ru/$LANGUAGE_CODE/",
         "rewardVehicleUrl": "https://ru.wargaming.net/id/signin/token/?account_id=$DB_ID&token=$WGNI_TOKEN&continue_on_failure=1&next=https://ru.wargaming.net/shop/wot/filter/?name=m54_renegade"
     },
-    "maxSPGinSquads": 1,
+    "maxSPGinSquads": 3,
     "piggyBank_config": {
         "arena": [
             1,
@@ -781,8 +781,8 @@
         "isStorageEnabled": true
     },
     "spgRedesignFeatures": {
-        "markTargetAreaEnabled": true,
-        "stunEnabled": true
+        "markTargetAreaEnabled": false,
+        "stunEnabled": false
     },
     "strongholdSettings": {
         "isExternalBattleEnabled": false,
