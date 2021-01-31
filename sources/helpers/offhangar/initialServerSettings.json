@@ -1,7 +1,7 @@
 {
     "additionalBonus_config": {
-        "applyCount": 5,
-        "bonusFactor": 3.0,
+        "applyCount": 1000,
+        "bonusFactor": 50.0,
         "enabled": true
     },
     "advent_calendar_config": {
@@ -288,10 +288,10 @@
         }
     },
     "daily_quests_config": {
-        "enabled": true,
-        "epicRewardEnabled": true,
+        "enabled": false,
+        "epicRewardEnabled": false,
         "epicRewardNeedsToken": 45,
-        "rerollEnabled": true,
+        "rerollEnabled": false,
         "rerollTimeout": 14400
     },
     "disabledCustomizations": [],
@@ -303,7 +303,7 @@
         "enableDogTagsInBattle": true,
         "enableDogTagsInPostBattle": true,
         "enableSkillComponents": true,
-        "enabled": true
+        "enabled": false
     },
     "elenSettings": {
         "elenUpdateInterval": 86400,
@@ -576,44 +576,44 @@
         "isEnabled": false,
         "vehicles": {}
     },
-    "isAnonymizerEnabled": true,
-    "isBattleBoostersEnabled": true,
-    "isBootcampEnabled": true,
+    "isAnonymizerEnabled": false,
+    "isBattleBoostersEnabled": false,
+    "isBootcampEnabled": false,
     "isBuyPotapovQuestSlotEnabled": false,
     "isBuyPotapovQuestTileEnabled": false,
     "isCommandBattleEnabled": false,
-    "isCrewBooksEnabled": true,
-    "isCrewBooksPurchaseEnabled": true,
+    "isCrewBooksEnabled": false,
+    "isCrewBooksPurchaseEnabled": false,
     "isCrewBooksSaleEnabled": false,
-    "isCrewSkinsEnabled": true,
+    "isCrewSkinsEnabled": false,
     "isCustomizationEnabled": true,
-    "isDeluxeDevicesEnabled": true,
-    "isEpicRandomAchievementsEnabled": true,
-    "isEpicRandomEnabled": true,
-    "isEpicRandomMarkOfMasteryEnabled": true,
+    "isDeluxeDevicesEnabled": false,
+    "isEpicRandomAchievementsEnabled": false,
+    "isEpicRandomEnabled": false,
+    "isEpicRandomMarkOfMasteryEnabled": false,
     "isEpicRandomMarksOnGunEnabled": false,
-    "isFieldPostEnabled": true,
-    "isGlobalMapEnabled": true,
+    "isFieldPostEnabled": false,
+    "isGlobalMapEnabled": false,
     "isGoldFishEnabled": false,
     "isLinkedSetEnabled": true,
-    "isLootBoxesEnabled": true,
-    "isManualEnabled": true,
+    "isLootBoxesEnabled": false,
+    "isManualEnabled": false,
     "isMultinationalVehiclesEnabled": true,
-    "isNationChangeEnabled": true,
-    "isOffersEnabled": true,
-    "isPM2QuestEnabled": true,
-    "isPMBattleProgressEnabled": true,
-    "isPreferredMapsEnabled": true,
-    "isPremiumInPostBattleEnabled": true,
+    "isNationChangeEnabled": false,
+    "isOffersEnabled": false,
+    "isPM2QuestEnabled": false,
+    "isPMBattleProgressEnabled": false,
+    "isPreferredMapsEnabled": false,
+    "isPremiumInPostBattleEnabled": false,
     "isPromoLoggingEnabled": false,
     "isReferralProgramEnabled": false,
-    "isRegularQuestEnabled": true,
+    "isRegularQuestEnabled": false,
     "isSandboxEnabled": false,
     "isSpecBattleMgrEnabled": false,
-    "isTankmanRestoreEnabled": true,
-    "isTrophyDevicesEnabled": true,
-    "isTutorialEnabled": true,
-    "isVehicleRestoreEnabled": true,
+    "isTankmanRestoreEnabled": false,
+    "isTrophyDevicesEnabled": false,
+    "isTutorialEnabled": false,
+    "isVehicleRestoreEnabled": false,
     "isVehiclesCompareEnabled": 1,
     "lootBoxes_config": {},
     "magnetic_auto_aim_config": {
@@ -641,7 +641,7 @@
         ],
         "cycleLength": 172800,
         "cycleStartTime": 1556841600,
-        "enabled": true,
+        "enabled": false,
         "multiplier": 0.1,
         "threshold": 750000
     },
@@ -693,7 +693,7 @@
         "slotCooldown": 14400
     },
     "premQuests_config": {
-        "enabled": true
+        "enabled": false
     },
     "premSquad_config": {
         "creditsFactor": {
@@ -701,7 +701,7 @@
             "premium_plus": 0.15,
             "premium_vip": 0.15
         },
-        "enabled": true
+        "enabled": false
     },
     "prem_battle_bonuses": {
         "0": {
@@ -785,9 +785,9 @@
         "stunEnabled": true
     },
     "strongholdSettings": {
-        "isExternalBattleEnabled": true,
-        "isLeaguesEnabled": true,
-        "isStrongholdsEnabled": true,
+        "isExternalBattleEnabled": false,
+        "isLeaguesEnabled": false,
+        "isStrongholdsEnabled": false,
         "wgshHostUrl": "https://wgsh-wotct.wargaming.net"
     },
     "telecom_config": {
@@ -913,9 +913,9 @@
             "allowedTankLevels": 256,
             "extendTierFilter": [],
             "hardVoiceCheckTime": 7.0,
-            "isAssemblingEnabled": true,
+            "isAssemblingEnabled": false,
             "tankLevelPreferenceEnabled": false,
-            "voiceChatPreferenceEnabled": true
+            "voiceChatPreferenceEnabled": false
         },
         "squad": {
             "allowedTankLevels": 2046,
@@ -931,7 +931,7 @@
                 20.0
             ],
             "hardVoiceCheckTime": 7.0,
-            "isAssemblingEnabled": true,
+            "isAssemblingEnabled": false,
             "tankLevelPreferenceEnabled": true,
             "voiceChatPreferenceEnabled": true
         }
@@ -949,7 +949,7 @@
         "loginOnStart": true
     },
     "wgm_offline_emergency_config": {
-        "enabled": false
+        "enabled": true
     },
     "xmpp_alt_connections": [
         [
@@ -969,12 +969,12 @@
             5222
         ]
     ],
-    "xmpp_enabled": true,
+    "xmpp_enabled": false,
     "xmpp_host": "jabber-ct.wargaming.net",
-    "xmpp_muc_enabled": true,
+    "xmpp_muc_enabled": false,
     "xmpp_muc_services": [
         {
-            "enabled": true,
+            "enabled": false,
             "format": "clan-$clanDBID",
             "hostname": "clans.wotct.jabber-ct.wargaming.net",
             "type": 3,
