@@ -1,7 +1,7 @@
 from WOT_UTILS import WOT_UTILS
 
 IS_PHYSICS = False
-IS_AUTOSTART = True
+IS_AUTOSTART = False
 
 def LOG_NOTE(*args, **kwargs):
 	kwargs = repr(kwargs) if kwargs else ''

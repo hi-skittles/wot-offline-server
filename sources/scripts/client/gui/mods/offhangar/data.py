@@ -4,8 +4,9 @@ import items
 from helpers import dependency
 from constants import ACCOUNT_ATTR
 
-from items import vehicles
+from items import utils, vehicles, tankmen, getTypeOfCompactDescr, makeIntCompactDescrByID
 from items.vehicles import g_list, g_cache
+from items.vehicles import VehicleDescr
 
 from gui.shared.gui_items import GUI_ITEM_TYPE
 from gui.shared.gui_items.Vehicle import Vehicle
@@ -25,8 +26,26 @@ def getOfflineInventory(itemsCache=None):
 		vehicle = vehicles.VehicleDescr(typeID=value)
 		intCompDescr = vehicles.makeIntCompactDescrByID('vehicle', *value)
 		item = Vehicle(typeCompDescr=intCompDescr, proxy=itemsCache.items)
+
+		vDesc = vehicle
+		vType = vDesc.type
+		turretv = vType.turrets[-1][-1]
+		gunv = turretv.guns[-1]
+
+		gunIDv = makeIntCompactDescrByID('vehicleGun',gunv.id[0],gunv.id[1])
+		turretIDv = makeIntCompactDescrByID('vehicleTurret',turretv.id[0],turretv.id[1])
+		engineIDv = makeIntCompactDescrByID('vehicleEngine',vType.engines[-1].id[0],vType.engines[-1].id[1])
+		radioIDv = makeIntCompactDescrByID('vehicleRadio',vType.radios[-1].id[0],vType.radios[-1].id[1])
+		chassisIDv = makeIntCompactDescrByID('vehicleChassis',vType.chassis[-1].id[0],vType.chassis[-1].id[1])
+
+		vDesc.installComponent(chassisIDv)
+		vDesc.installComponent(engineIDv)
+		vDesc.installTurret(turretIDv,gunIDv)
+		vDesc.installComponent(radioIDv)
+
 		if not item.isOnlyForEventBattles and not item.isPremiumIGR:
-			compDescr[len(compDescr)] = vehicle.makeCompactDescr()
+			compDescr[len(compDescr)] = vDesc.makeCompactDescr()
+
 
 	data[GUI_ITEM_TYPE.VEHICLE] = {
 		'repair': {},
@@ -77,32 +96,32 @@ def getOfflineStats():
 	return { 
 		'stats': {
 			'crystalExchangeRate': 200,
-			'berths': 40,
+			'berths': 40000,
 			'accOnline': 0,
 			'autoBanTime': 0,
-			'gold': 1000000,
-			'crystal': 1000,
+			'gold': 10000000,
+			'crystal': 10000000,
 			'isFinPswdVerified': True,
 			'finPswdAttemptsLeft': 0,
 			'denunciationsLeft': 0,
 			'freeVehiclesLeft': 0,
 			'refSystem': {'referrals': {}},
-			'slots': 0,
+			'slots': 1000,
 			'battlesTillCaptcha': 0,
 			'hasFinPassword': True,
 			'clanInfo': (None, None, 0, 0, 0),
 			'unlocks': unlocksSet,
 			'mayConsumeWalletResources': True,
-			'freeTMenLeft': 0,
-			'vehicleSellsLeft': 0,
+			'freeTMenLeft': 10,
+			'vehicleSellsLeft': 10,
 			'SPA': {'/common/goldfish_bonus_applied/': u'1'},
 			'vehTypeXP': vehTypeXP,
 			'unitAcceptDeadline': 0,
 			'globalVehicleLocks': {},
-			'freeXP': 100000000,
+			'freeXP': 10000000,
 			'captchaTriesLeft': 0,
 			'fortResource': 0,
-			'premiumExpiryTime': 86400,
+			'premiumExpiryTime': 8000,
 			'tkillIsSuspected': False,
 			'credits': 100000000,
 			'vehTypeLocks': {},
@@ -110,9 +129,9 @@ def getOfflineStats():
 			'globalRating': 0,
 			'restrictions': {},
 			'oldVehInvID': 0,
-			'accOffline': 0,
+			'accOffline': 1,
 			'dossier': '',
-			'multipliedXPVehs': unlocksSet,
+			'multipliedXPVehs': {},
 			'tutorialsCompleted': 33553532,
 			'eliteVehicles': vehiclesSet,
 			'playLimits': ((0, ''), (0, '')),
@@ -138,11 +157,11 @@ def getOfflineShop():
 		},
 		'berthsPrices': (16,16,[300]),
 		'femalePassportChangeCost': 50,
-		'freeXPConversion': (25,1),
+		'freeXPConversion': (100000,0.1),
 		'dropSkillsCost': {
 			0: { 'xpReuseFraction': 0.5, 'gold': 0, 'credits': 0 },
 			1: { 'xpReuseFraction': 0.75, 'gold': 0, 'credits': 20000 },
-			2: { 'xpReuseFraction': 1.0, 'gold': 200, 'credits': 0 }
+			2: { 'xpReuseFraction': 1.0, 'gold': 10, 'credits': 1000 }
 		},
 		'refSystem': {
 			'maxNumberOfReferrals': 50,
@@ -156,15 +175,15 @@ def getOfflineShop():
 			7: (1500, False)
 		},
 		'premiumCost': {
-			1: 250,
-			3: 650,
-			7: 1250,
-			360: 24000,
-			180: 13500,
-			30: 2500
+			1: 1, #250
+			3: 1, #650
+			7: 1, #1250
+			360: 1, #24000
+			180: 1, #13500
+			30: 1 #2500
 		},
 		'winXPFactorMode': 0,
-		'sellPriceModif': 0.5,
+		'sellPriceModif': 0.75,
 		'passportChangeCost': 50,
 		'exchangeRateForShellsAndEqs': 400,
 		'exchangeRate': 400,
@@ -192,10 +211,10 @@ def getOfflineShop():
 				'classChangeRoleLoss': 0.0,
 				'roleLevel': 100
 			}),
-		'paidRemovalCost': 10,
-		'dailyXPFactor': 2,
+		'paidRemovalCost': 0,
+		'dailyXPFactor': 100,
 		'changeRoleCost': 500,
-		'isEnabledBuyingGoldShellsForCredits': True,
+		'isEnabledBuyingGoldShellsForCredits': False,
 		'items': shopItems,
 		'slotsPrices': (9, [300]),
 		'freeXPToTManXPRate': 10,
