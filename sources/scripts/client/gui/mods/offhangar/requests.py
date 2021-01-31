@@ -4,15 +4,13 @@ import AccountCommands
 import zlib
 import cPickle
 import game
-import ResMgr
 
 from collections import namedtuple
 
-from .logging import *
-from .server import *
-from ._constants import *
-from .data import *
-from .utils import *
+from gui.mods.offhangar.logging import *
+from gui.mods.offhangar.server import *
+from gui.mods.offhangar._constants import *
+from gui.mods.offhangar.data import *
 
 RequestResult = namedtuple('RequestResult', ['resultID', 'errorStr', 'data'])
 
@@ -37,9 +35,6 @@ def completeTutorial(requestID, revision, dataLen, dataCrc):
 @baseRequest(AccountCommands.CMD_SYNC_DATA)
 def syncData(requestID, revision, crc, _):
 	data = {'rev':revision + 1, 'prevRev': revision}
-
-	# data.update(cPickle.loads(ResMgr.openSection('helpers/offhangar/persistentCache.pickle').asBinary))
-	
 	data.update(getOfflineInventory())
 	data.update(getOfflineStats())
 	data.update(getOfflineQuestsProgress())

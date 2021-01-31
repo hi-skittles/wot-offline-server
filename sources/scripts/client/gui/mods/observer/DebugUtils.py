@@ -1,11 +1,12 @@
 import BigWorld
 import Math
-import math_utils
+
+from AvatarInputHandler import mathUtils
 
 
 class DebugPoint(object):
 	def __init__(self):
-		self.model = BigWorld.Model('helpers/observer/models/point.model')
+		self.model = BigWorld.Model('helpers/models/point.model')
 		BigWorld.addModel(self.model)
 
 	def set(self, position):
@@ -22,7 +23,7 @@ class DebugLine(object):
 	visibility = property(lambda self: self.__model.visible, _setVisibility)
    
 	def __init__(self):
-		self.__model = BigWorld.Model('helpers/observer/models/unit_cube.model')
+		self.__model = BigWorld.Model('helpers/models/unit_cube.model')
 		self.__motor = BigWorld.Servo(Math.Matrix())
 		self.__model.addMotor(self.__motor)
 		self.__model.castsShadow = False
@@ -31,8 +32,8 @@ class DebugLine(object):
 
 	def set(self, start, end):
 		direction = end - start
-		m = math_utils.createSRTMatrix((self.__thickness, self.__thickness, direction.length), (direction.yaw, direction.pitch, 0), start + direction / 2)
-		m.preMultiply(math_utils.createTranslationMatrix((-0.5, -0.5, -0.5)))
+		m = mathUtils.createSRTMatrix((self.__thickness, self.__thickness, direction.length), (direction.yaw, direction.pitch, 0), start + direction / 2)
+		m.preMultiply(mathUtils.createTranslationMatrix((-0.5, -0.5, -0.5)))
 		self.__motor.signal = m
 
 	def destroy(self):

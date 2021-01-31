@@ -1,7 +1,6 @@
 import math
 import Math
 import BigWorld
-import math_utils
 
 from debug_utils import LOG_CURRENT_EXCEPTION
 
@@ -9,6 +8,8 @@ from . import *
 from BasePhysics import BasePhysics
 
 from physics_shared import *
+
+from AvatarInputHandler import mathUtils
 
 from vehicle_systems.tankStructure import TankPartNames
 
@@ -256,9 +257,9 @@ class PhysicalBody(object):
 	def applyRotation(self, velocity):
 		self.rotation = self.rotation + velocity
 		self.rotation = Math.Vector3(
-				math_utils.reduceToPI(self.rotation[0]),
-				math_utils.reduceToPI(self.rotation[1]),
-				math_utils.reduceToPI(self.rotation[2]),
+				mathUtils.reduceToPI(self.rotation[0]),
+				mathUtils.reduceToPI(self.rotation[1]),
+				mathUtils.reduceToPI(self.rotation[2]),
 			)
 
 	def rotate(self, rspeed):

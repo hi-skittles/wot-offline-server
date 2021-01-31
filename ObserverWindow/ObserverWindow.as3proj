@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="ObserverWindow.swf" />
+    <movie path="bin\ObserverWindow.swf" />
     <movie fps="30" />
     <movie width="800" />
     <movie height="600" />
@@ -12,7 +12,6 @@
     <movie minorVersion="0" />
     <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
-    <movie preferredSDK="C:\Users\Shadow\Desktop\work\wot-offline-testing\wot-offline-server\ObserverWindow\libraries" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -58,13 +57,7 @@
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <element path="libraries\base_app-1.0-SNAPSHOT.swc" />
-    <element path="libraries\battle.swc" />
-    <element path="libraries\common_i18n_library-1.0-SNAPSHOT.swc" />
-    <element path="libraries\common-1.0-SNAPSHOT.swc" />
-    <element path="libraries\gui_base-1.0-SNAPSHOT.swc" />
-    <element path="libraries\gui_lobby-1.0-SNAPSHOT.swc" />
-    <element path="libraries\lobby.swc" />
+    <element path="libraries\wg_lobby.swc" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>
