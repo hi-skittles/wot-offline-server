@@ -5,6 +5,7 @@ import time
 
 from Avatar import _CRUISE_CONTROL_MODE, _MOVEMENT_FLAGS
 from helpers.CallbackDelayer import CallbackDelayer
+from AvatarInputHandler import mathUtils
 
 from Physics import DumbPhysics
 

@@ -1,5 +1,5 @@
 import functools
-from .utils import *
+from gui.mods.offhangar.utils import *
 
 doLog = functools.partial(doLog, 'OFFHANGAR')
 LOG_NOTE = functools.partial(doLog, '[NOTE]')

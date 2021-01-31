@@ -3,8 +3,8 @@ import functools
 import AccountCommands
 import cPickle
 
-from ._constants import CHAT_ACTION_DATA
-from .logging import *
+from gui.mods.offhangar._constants import CHAT_ACTION_DATA
+from gui.mods.offhangar.logging import *
 
 BASE_REQUESTS = {}
 
@@ -25,11 +25,10 @@ class FakeServer(object):
 			return FakeServer(name='%s.%s' % (self.__name, name), isMuted=self.__isMuted)
 
 	def chatCommandFromClient(self, requestID, action, channelID, int64Arg, int16Arg, stringArg1, stringArg2):
-		# chatActionData = CHAT_ACTION_DATA.copy()
-		# chatActionData['requestID'] = requestID
-		# chatActionData['action'] = action
-		# BigWorld.player().onChatAction(chatActionData)
-		pass
+		chatActionData = CHAT_ACTION_DATA.copy()
+		chatActionData['requestID'] = requestID
+		chatActionData['action'] = action
+		BigWorld.player().onChatAction(chatActionData)
 
 	def doCmdStr(self, requestID, cmd, str):
 		LOG_DEBUG('Server.doCmdStr', requestID, str)

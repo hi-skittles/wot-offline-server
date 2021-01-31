@@ -2,95 +2,49 @@ import nations
 import items
 
 from helpers import dependency
-from constants import ACCOUNT_ATTR, SkinInvData
+from constants import ACCOUNT_ATTR
 
-from items import utils, vehicles, tankmen, getTypeOfCompactDescr, makeIntCompactDescrByID
-from items.vehicles import isItemWithCompactDescrExist
+from items import vehicles
+from items.vehicles import g_list, g_cache
 
 from gui.shared.gui_items import GUI_ITEM_TYPE
-from gui.shared.gui_items.Vehicle import Vehicle, VehicleDescr, makeIntCompactDescrByID
-from gui.shared.utils.requesters.vehicle_items_getter import _MODULES_GETTERS
+from gui.shared.gui_items.Vehicle import Vehicle
 
-from skeletons.gui.shared.gui_items import IGuiItemsFactory
+from skeletons.gui.shared import IItemsCache
 
-from .logging import *
-from .utils import *
-from ._constants import *
+from gui.mods.offhangar.logging import *
+from gui.mods.offhangar.utils import *
+from gui.mods.offhangar._constants import *
 
-shopItems = {}
-items.init(True, shopItems)
-
-if vehicles._g_prices and 'notInShopItems' in vehicles._g_prices:
-	vehicles._g_prices['notInShopItems'].clear()
-if 'notInShopItems' in shopItems:
-	shopItems['notInShopItems'].clear()
-
-def iterItems():
-	for itemType, getter in _MODULES_GETTERS.items():
-		for nationID in nations.INDICES.itervalues():
-			for item in getter(nationID):
-				if isItemWithCompactDescrExist(item.compactDescr):
-					yield item.compactDescr
-
-@dependency.replace_none_kwargs(itemsFactory=IGuiItemsFactory)
-def getOfflineInventory(itemsFactory=None):
+@dependency.replace_none_kwargs(itemsCache=IItemsCache)
+def getOfflineInventory(itemsCache=None):
 	data = {i: {} for i in GUI_ITEM_TYPE.ALL()}
+
+	compDescr = {}
+	for value in g_list._VehicleList__ids.values():
+		vehicle = vehicles.VehicleDescr(typeID=value)
+		intCompDescr = vehicles.makeIntCompactDescrByID('vehicle', *value)
+		item = Vehicle(typeCompDescr=intCompDescr, proxy=itemsCache.items)
+		if not item.isOnlyForEventBattles and not item.isPremiumIGR:
+			compDescr[len(compDescr)] = vehicle.makeCompactDescr()
+
 	data[GUI_ITEM_TYPE.VEHICLE] = {
-		'compDescr': {},
-		'crew': {},
+		'repair': {},
+		'lastCrew': {},
+		'settings': {},
+		'compDescr': compDescr,
+		'eqs': {},
+		'shells': {},
+		'customizationExpiryTime': {},
+		'lock': {},
+		'shellsLayout': {},
+		'vehicle': {}
 	}
-	data[GUI_ITEM_TYPE.TANKMAN] = {
-		'compDescr': {},
-		'vehicle': {},
+	data['customizations'] = {
+		False: {},
+		True: {}
 	}
-	data[GUI_ITEM_TYPE.CREW_SKINS] = {
-		SkinInvData.ITEMS: {},
-		SkinInvData.OUTFITS: {},
-	}
-
-	for typeCompDescr in iterItems():
-		itemType = getTypeOfCompactDescr(typeCompDescr)
-		if itemType == GUI_ITEM_TYPE.VEHICLE:
-			item = itemsFactory.createGuiItem(itemType, typeCompDescr=typeCompDescr)
-			nationID, vehicleTypeID = item.descriptor.type.id
-
-			vDesc = VehicleDescr(item.descriptor.makeCompactDescr())
-			vType = vDesc.type
-			turretv = vType.turrets[-1][-1]
-			gunv = turretv['guns'][-1]
-
-			gunIDv = makeIntCompactDescrByID('vehicleGun',gun.id[0],gun.id[1])
-			turretIDv = makeIntCompactDescrByID('vehicleTurret',turrent.id[0],turrent.id[1])
-			engineIDv = makeIntCompactDescrByID('vehicleEngine',vType.engines[-1].id[0],vType.engines[-1].id[1])
-			radioIDv = makeIntCompactDescrByID('vehicleRadio',vType.radios[-1].id[0],vType.radios[-1].id[1])
-			chassisIDv = makeIntCompactDescrByID('vehicleChassis',vType.chassis[-1].id[0],vType.chassis[-1].id[1])
-
-			vDesc.installComponent(chassisIDv)
-			vDesc.installComponent(engineIDv)
-			vDesc.installTurret(turretIDv,gunIDv)
-			vDesc.installComponent(radioIDv)
-
-			data[GUI_ITEM_TYPE.VEHICLE]['compDescr'][typeCompDescr] = vDesc.makeCompactDescr()
-			data[GUI_ITEM_TYPE.VEHICLE]['crew'][typeCompDescr] = []
-
-			for idx, roles in enumerate(item.descriptor.type.crewRoles):
-				tmanID = typeCompDescr << 4 + idx
-				data[GUI_ITEM_TYPE.TANKMAN]['compDescr'][tmanID] = tankmen.generateCompactDescr(
-					tankmen.generatePassport(nationID, True),
-					vehicleTypeID,
-					roles[0],
-					100
-				)
-				data[GUI_ITEM_TYPE.TANKMAN]['vehicle'][tmanID] = typeCompDescr
-				data[GUI_ITEM_TYPE.VEHICLE]['crew'][typeCompDescr].append(tmanID)
-		else:
-			item = itemsFactory.createGuiItem(itemType, typeCompDescr)
-			if itemType == GUI_ITEM_TYPE.CREW_SKINS:
-				data[itemType][SkinInvData.ITEMS][item.getID()] = item.getMaxCount()
-				data[itemType][SkinInvData.OUTFITS][item.getID()] = item.getMaxCount()
-			else:
-				data[itemType][typeCompDescr] = 1
-
+			
 	return {
 		'inventory': data,
 	}
@@ -98,42 +52,51 @@ def getOfflineInventory(itemsFactory=None):
 def getOfflineStats():
 	unlocksSet = set()
 	vehiclesSet = set()
+	
+	for nationID in nations.INDICES.values():
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('vehicleChassis', nationID, i) for i in g_cache.chassis(nationID).keys()}
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('vehicleEngine', nationID, i) for i in g_cache.engines(nationID).keys()}
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('vehicleFuelTank', nationID, i) for i in g_cache.fuelTanks(nationID).keys()}
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('vehicleRadio', nationID, i) for i in g_cache.radios(nationID).keys()}
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('vehicleTurret', nationID, i) for i in g_cache.turrets(nationID).keys()}
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('vehicleGun', nationID, i) for i in g_cache.guns(nationID).keys()}
+		unlocksSet |= {vehicles.makeIntCompactDescrByID('shell', nationID, i) for i in g_cache.shells(nationID).keys()}
 
-	for typeCompDescr in iterItems():
-		itemType = getTypeOfCompactDescr(typeCompDescr)
-		if itemType == GUI_ITEM_TYPE.VEHICLE:
-			vehiclesSet.add(typeCompDescr)
-		unlocksSet.add(typeCompDescr)
+		vData = {vehicles.makeIntCompactDescrByID('vehicle', nationID, i) for i in g_list.getList(nationID).keys()}
+		unlocksSet |= vData
+		vehiclesSet |= vData
 
 	attrs = 0
 	for field in dir(ACCOUNT_ATTR):
 		value = getattr(ACCOUNT_ATTR, field, None)
-		if isinstance(value, (int, long)) and value != ACCOUNT_ATTR.SUSPENDED:
+		if isinstance(value, (int, long)):
 			attrs |= value
+	
+	vehTypeXP = {i: 0 for i in vehiclesSet}
 
-	return {
+	return { 
 		'stats': {
 			'crystalExchangeRate': 200,
 			'berths': 40,
 			'accOnline': 0,
 			'autoBanTime': 0,
 			'gold': 1000000,
-			'crystal': 100000,
+			'crystal': 1000,
 			'isFinPswdVerified': True,
 			'finPswdAttemptsLeft': 0,
 			'denunciationsLeft': 0,
 			'freeVehiclesLeft': 0,
 			'refSystem': {'referrals': {}},
-			'slots': len(vehiclesSet),
+			'slots': 0,
 			'battlesTillCaptcha': 0,
 			'hasFinPassword': True,
 			'clanInfo': (None, None, 0, 0, 0),
 			'unlocks': unlocksSet,
-			'mayConsumeWalletResources': False,
+			'mayConsumeWalletResources': True,
 			'freeTMenLeft': 0,
-			'vehicleSellsLeft': 40,
-        	'SPA': {'/common/goldfish_bonus_applied/': u'1'},
-			'vehTypeXP': {i: 0 for i in vehiclesSet},
+			'vehicleSellsLeft': 0,
+			'SPA': {'/common/goldfish_bonus_applied/': u'1'},
+			'vehTypeXP': vehTypeXP,
 			'unitAcceptDeadline': 0,
 			'globalVehicleLocks': {},
 			'freeXP': 100000000,
@@ -159,6 +122,8 @@ def getOfflineStats():
 	}
 
 def getOfflineShop():
+	shopItems = {}
+	items.init(True, shopItems)
 	return {
 		'crystalExchangeRate': 200,
 		'camouflageCost': {
@@ -227,6 +192,7 @@ def getOfflineShop():
 				'classChangeRoleLoss': 0.0,
 				'roleLevel': 100
 			}),
+		'paidRemovalCost': 10,
 		'dailyXPFactor': 2,
 		'changeRoleCost': 500,
 		'isEnabledBuyingGoldShellsForCredits': True,
@@ -254,17 +220,21 @@ def getOfflineQuestsProgress():
 		'potapovQuests': {
 			'compDescr': '',
 			'regular': {
+				'tiles': set([]),
+				'rewards': {},
+				'compDescr': '',
+				'selected': set([1, 17, 31, 46, 61]),
 				'lastIDs': {},
-				'rewards': [ {}, {} ],
-				'selected': [65, 7, 20, 53, 39],
-				'slots': 5
+				'slots': 2
 			},
-			'pm2': {
+			'fallout': {
+				'tiles': set([]),
+				'rewards': {},
+				'compDescr': '',
+				'selected': set([301, 401]),
 				'lastIDs': {},
-				'rewards': [ {}, {} ],
-				'selected': [],
-				'slots': 4
+				'slots': 2
 			},
 		},
-		'tiles': []
+		'quests': {}
 	}

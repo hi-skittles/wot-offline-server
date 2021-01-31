@@ -1,7 +1,7 @@
-from .utils import *
+from WOT_UTILS import WOT_UTILS
 
 IS_PHYSICS = False
-IS_AUTOSTART = False
+IS_AUTOSTART = True
 
 def LOG_NOTE(*args, **kwargs):
 	kwargs = repr(kwargs) if kwargs else ''
@@ -10,7 +10,3 @@ def LOG_NOTE(*args, **kwargs):
 
 def LOG_DEBUG(*args, **kwargs):
 	LOG_NOTE('[DEBUG]', *args, **kwargs)
-
-
-def LOG_DEBUG_DEV(*args, **kwargs):
-	LOG_NOTE('[DEBUG_DEV]', *args, **kwargs)
