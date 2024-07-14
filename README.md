@@ -3,3 +3,5 @@
 
 
 <h4 align="left">I have largely left this project due to a lack of interest in WoT coupled with the fact that WG does not want/intend to release a developer API for their game. Check issues tab.</h4>
+
+If youre reading this and have Python experience, please let me know.
