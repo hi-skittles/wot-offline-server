@@ -6,4 +6,4 @@
 
 <p>Please see <a href="https://github.com/hi-skittles/private-wot-server">this repo for any updates regarding this sort of project</a>. It is in 0.9.7 instead of 0.9.22, as older versions are much easier to work with. Do not ask for a setup guide.</p>
 
-<i>If youre reading this and have Python experience, please let me know.</i>
+<i>No I will not tell you how to make your own "private WoT server"!! Don't ask!</i>
